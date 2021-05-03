@@ -4,10 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'busline.dart';
+import 'line_info.dart';
+
 void main() => runApp(MaterialApp(
-  debugShowCheckedModeBanner: false,
-  home: MyApp(),
-));
+      debugShowCheckedModeBanner: false,
+      home: MyApp(),
+    ));
 
 class MyApp extends StatefulWidget {
   @override
@@ -59,75 +61,84 @@ class _MyAppState extends State<MyApp> {
 
   Widget cardTemplate(bus) {
     return Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: new InkWell(
+        onTap: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LineInfo(),
+            ),
+          );
+        },
         child: Column(children: <Widget>[
           Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Column(children: <Widget>[
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                          child: Image.asset(
-                            'assets/${bus.icon}',
-                            fit: BoxFit.fitHeight,
-                            width: 130,
-                            height: 200,
-                          )),
-                      SizedBox(height: 5),
-                      _textTemp(bus.name, 20.0),
-                      SizedBox(height: 5),
-                      _textTemp(bus.carNumber, 18.0),
-                      SizedBox(height: 5),
-                      _textTemp(bus.seats, 18.0)
-                    ]),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          _textTemp(bus.from + ' -', 24.0),
-                          _textTemp(bus.to, 24.0),
-                          SizedBox(height: 15),
-                          _textTemp('Отправление', 20.0, FontWeight.bold),
-                          SizedBox(height: 5),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _textTemp(
-                                    'Дата  -  ' +
-                                        DateFormat('dd.MM.yyyy E')
-                                            .format(bus.fromDateTime),
-                                    18.0),
-                                SizedBox(height: 5),
-                                _textTemp(
-                                    'Время  -  ' +
-                                        DateFormat('HH:mm')
-                                            .format(bus.fromDateTime),
-                                    18.0)
-                              ]),
-                          SizedBox(height: 15),
-                          _textTemp('Прибытие', 20.0, FontWeight.bold),
-                          SizedBox(height: 5),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                _textTemp(
-                                    'Дата  -  ' +
-                                        DateFormat('dd.MM.yyyy E')
-                                            .format(bus.toDateTime),
-                                    18.0),
-                                SizedBox(height: 5),
-                                _textTemp(
-                                    'Время  -  ' +
-                                        DateFormat('HH:mm')
-                                            .format(bus.toDateTime),
-                                    18.0)
-                              ])
-                        ])
-                  ])),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Column(children: <Widget>[
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: Image.asset(
+                          'assets/${bus.icon}',
+                          fit: BoxFit.fitHeight,
+                          width: 130,
+                          height: 200,
+                        )),
+                    SizedBox(height: 5),
+                    _textTemp(bus.name, 20.0),
+                    SizedBox(height: 5),
+                    _textTemp(bus.carNumber, 18.0),
+                    SizedBox(height: 5),
+                    _textTemp(bus.seats, 18.0)
+                  ]),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        _textTemp(bus.from + ' -', 24.0),
+                        _textTemp(bus.to, 24.0),
+                        SizedBox(height: 15),
+                        _textTemp('Отправление', 20.0, FontWeight.bold),
+                        SizedBox(height: 5),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _textTemp(
+                                  'Дата  -  ' +
+                                      DateFormat('dd.MM.yyyy E')
+                                          .format(bus.fromDateTime),
+                                  18.0),
+                              SizedBox(height: 5),
+                              _textTemp(
+                                  'Время  -  ' +
+                                      DateFormat('HH:mm')
+                                          .format(bus.fromDateTime),
+                                  18.0)
+                            ]),
+                        SizedBox(height: 15),
+                        _textTemp('Прибытие', 20.0, FontWeight.bold),
+                        SizedBox(height: 5),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _textTemp(
+                                  'Дата  -  ' +
+                                      DateFormat('dd.MM.yyyy E')
+                                          .format(bus.toDateTime),
+                                  18.0),
+                              SizedBox(height: 5),
+                              _textTemp(
+                                  'Время  -  ' +
+                                      DateFormat('HH:mm').format(bus.toDateTime),
+                                  18.0)
+                            ])
+                      ])
+                ]),
+          ),
           FlatButton(
               padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
               onPressed: () {
@@ -166,7 +177,9 @@ class _MyAppState extends State<MyApp> {
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(vertical: 5),
                   child: _textTemp('Удалить рейс')))
-        ]));
+        ]),
+      )
+    );
   }
 
   Widget _listTile(text, icon) {
@@ -174,7 +187,7 @@ class _MyAppState extends State<MyApp> {
       padding: const EdgeInsets.only(top: 8.0),
       child: ListTile(
           leading:
-          new IconTheme(data: new IconThemeData(size: 40), child: icon),
+              new IconTheme(data: new IconThemeData(size: 40), child: icon),
           title: Text(text,
               style: TextStyle(
                   color: Colors.black87,
@@ -199,6 +212,7 @@ class _MyAppState extends State<MyApp> {
             backgroundColor: Colors.green),
         body: ListView(
           children: busList.map((bus) => cardTemplate(bus)).toList(),
+
         ),
         floatingActionButton: FlatButton(
             onPressed: () {},
@@ -216,40 +230,40 @@ class _MyAppState extends State<MyApp> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         drawer: new Drawer(
             child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-              DrawerHeader(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(50, 10, 0, 0),
-                            child: Text('Test Company',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w500))),
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                            child: Text('Aty Zhoni',
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w800)))
-                      ]),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: Colors.black87, width: 2)))),
-              _listTile('Продажа билетов', Icon(Icons.credit_card)),
-              _listTile('Список администраторов', Icon(Icons.people)),
-              _listTile(
-                'Автобусы',
-                Icon(Icons.departure_board),
-              ),
-              _listTile('Статистика', Icon(Icons.equalizer)),
-              _listTile('Пассажиры', Icon(Icons.airline_seat_recline_extra)),
-              _listTile('Расписание', Icon(Icons.date_range)),
-              _listTile('История', Icon(Icons.library_books)),
-              _listTile('Настройки', Icon(Icons.settings)),
-            ])));
+          DrawerHeader(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(50, 10, 0, 0),
+                        child: Text('Test Company',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 28,
+                                fontWeight: FontWeight.w500))),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                        child: Text('Aty Zhoni',
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 36,
+                                fontWeight: FontWeight.w800)))
+                  ]),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(color: Colors.black87, width: 2)))),
+          _listTile('Продажа билетов', Icon(Icons.credit_card)),
+          _listTile('Список администраторов', Icon(Icons.people)),
+          _listTile(
+            'Автобусы',
+            Icon(Icons.departure_board),
+          ),
+          _listTile('Статистика', Icon(Icons.equalizer)),
+          _listTile('Пассажиры', Icon(Icons.airline_seat_recline_extra)),
+          _listTile('Расписание', Icon(Icons.date_range)),
+          _listTile('История', Icon(Icons.library_books)),
+          _listTile('Настройки', Icon(Icons.settings)),
+        ])));
   }
 }
